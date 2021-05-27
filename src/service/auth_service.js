@@ -12,6 +12,8 @@ class AuthService {
     firebase.auth().signOut();
   }
 
+  // ouUserChanged는 onAuthChange함수가 실행될때마다 받는 callback함수로 그때 그때 하는 일이 다르다
+  // 단, callback함수에서 사용되는 인자 user는 onAuthStateChanged의 user이다.
   onAuthChange(onUserChanged) {
     firebase.auth().onAuthStateChanged((user) => {
       onUserChanged(user);
