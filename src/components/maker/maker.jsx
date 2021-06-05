@@ -7,8 +7,8 @@ import Preview from "../preview/preview";
 import styles from "./maker.module.css";
 
 const Maker = ({ authService }) => {
-  const [cards, setCards] = useState([
-    {
+  const [cards, setCards] = useState({
+    1: {
       id: "1",
       name: "Jonghwan",
       company: "none",
@@ -19,7 +19,7 @@ const Maker = ({ authService }) => {
       fileName: "jonghwan",
       fileURL: null,
     },
-    {
+    2: {
       id: "2",
       name: "Jonghwan2",
       company: "none",
@@ -30,7 +30,7 @@ const Maker = ({ authService }) => {
       fileName: "jonghwan",
       fileURL: "jonghwan.png",
     },
-    {
+    3: {
       id: "3",
       name: "Jonghwan3",
       company: "none",
@@ -41,7 +41,8 @@ const Maker = ({ authService }) => {
       fileName: "jonghwan",
       fileURL: null,
     },
-  ]);
+  });
+
   const history = useHistory();
   const onLogout = () => {
     authService.logout();
@@ -55,15 +56,33 @@ const Maker = ({ authService }) => {
     });
   });
 
-  const addCard = (card) => {
-    const updated = [...cards, card];
-    setCards(updated);
+  const createOrUpdateCard = (card) => {
+    // set함수 자체가 이전 값을 인자로 가지는 callback함수를 이용할 수 있다.
+    setCards((cards) => {
+      // setCards를 부를 때 그 때의 cards를 가지고와서
+      const updated = { ...cards };
+      updated[card.id] = card;
+      return updated;
+    });
+  };
+
+  const deleteCard = (card) => {
+    setCards((cards) => {
+      const updated = { ...cards };
+      delete updated[card.id];
+      return updated;
+    });
   };
   return (
     <section className={styles.maker}>
       <Header onLogout={onLogout} />
       <div className={styles.container}>
-        <Editor cards={cards} addCard={addCard} />
+        <Editor
+          cards={cards}
+          addCard={createOrUpdateCard}
+          updateCard={createOrUpdateCard}
+          deleteCard={deleteCard}
+        />
         <Preview cards={cards} />
       </div>
       <Footer />
