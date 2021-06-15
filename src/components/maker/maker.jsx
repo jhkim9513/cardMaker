@@ -16,6 +16,18 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
     authService.logout();
   };
 
+  // useEffect는 로직별로 만들어 사용해도 된다.
+  useEffect(() => {
+    if (!userId) {
+      return;
+    }
+    const stopSync = cardRepository.syncCards(userId, (cards) => {
+      setCards(cards);
+    });
+    // component가 unmount됬을 때 useEffect에서 return한 함수를 호출한다.
+    return () => stopSync(); //stopSync는 ref.off(); 함수를 실행한다.
+  }, [userId]);
+
   useEffect(() => {
     authService.onAuthChange((user) => {
       if (user) {
