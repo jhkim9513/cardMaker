@@ -8,7 +8,7 @@ const Editor = ({ FileInput, cards, addCard, updateCard, deleteCard }) => (
     <h1 className={styles.title}>Card Maker</h1>
     {Object.keys(cards).map((key) => (
       <CardEditForm
-        key={key.id}
+        key={key}
         FileInput={FileInput}
         card={cards[key]}
         updateCard={updateCard}

@@ -26,7 +26,7 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
     });
     // component가 unmount됬을 때 useEffect에서 return한 함수를 호출한다.
     return () => stopSync(); //stopSync는 ref.off(); 함수를 실행한다.
-  }, [userId]);
+  }, [userId, cardRepository]);
 
   useEffect(() => {
     authService.onAuthChange((user) => {
@@ -36,7 +36,7 @@ const Maker = ({ FileInput, authService, cardRepository }) => {
         history.push("/");
       }
     });
-  });
+  }, [userId, authService, history]);
 
   const createOrUpdateCard = (card) => {
     // set함수 자체가 이전 값을 인자로 가지는 callback함수를 이용할 수 있다.

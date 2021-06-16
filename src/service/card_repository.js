@@ -1,9 +1,9 @@
-import firebaseApp from "./firebase";
+import { firebaseDatabase } from "./firebase";
 
 class CardRepository {
   syncCards(userId, onUpdate) {
     // firebase에서 해당 경로상의 모든 변화를 감지하는데
-    const ref = firebaseApp.database().ref(`${userId}/cards`);
+    const ref = firebaseDatabase.ref(`${userId}/cards`);
     // 변화(update)가 있을 때 마다 snapshot을 인자로 가지는 callback함수를 호출하는데
     ref.on("value", (snapshot) => {
       // snapshot의 value가 있다면 callback함수인 onUpdate를 호출해줌
@@ -17,11 +17,11 @@ class CardRepository {
   }
 
   saveCard(userId, card) {
-    firebaseApp.database().ref(`${userId}/cards/${card.id}`).set(card);
+    firebaseDatabase.ref(`${userId}/cards/${card.id}`).set(card);
   }
 
   removeCard(userId, card) {
-    firebaseApp.database().ref(`${userId}/cards/${card.id}`).remove();
+    firebaseDatabase.ref(`${userId}/cards/${card.id}`).remove();
   }
 }
 
